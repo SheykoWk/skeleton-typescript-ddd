@@ -1,0 +1,56 @@
+#!/bin/bash
+
+MIGRATION_DIR="./src/persist/migrations"
+MIGRATION_NAME="$2"
+
+generate_migration() {
+  if [ -z "$MIGRATION_NAME" ]; then
+    echo "Por favor, proporciona un nombre para la migración"
+    exit 1
+  fi
+
+    npx tsc
+    echo "[*]Compiling Typescript"
+
+    echo "Generando migración '$MIGRATION_NAME'..."
+
+  npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate -d src/config/typeorm.source-migrations.ts "$MIGRATION_NAME"
+  
+  if [ $? -ne 0 ]; then
+    echo "Error al generar la migración"
+    exit 1
+  fi
+
+  GENERATED_FILE=$(ls | grep -E "^[0-9]+-.*$")
+
+  if [ -z "$GENERATED_FILE" ]; then
+    echo "Migration not found."
+    exit 1
+  fi
+
+  mv "$GENERATED_FILE" "$MIGRATION_DIR/$GENERATED_FILE"
+
+  echo "Migración '$MIGRATION_NAME' movida a '$MIGRATION_DIR/$MIGRATION_NAME.ts'"
+}
+
+run_migrations() {
+  echo "Ejecutando migraciones..."
+  
+  npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/config/typeorm.source-migrations.ts 
+  
+  if [ $? -ne 0 ]; then
+    echo "Error al ejecutar las migraciones"
+    exit 1
+  fi
+
+  echo "Migraciones ejecutadas correctamente"
+}
+
+if [ "$1" == "migrations:generate" ]; then
+  generate_migration
+elif [ "$1" == "migrations:run" ]; then
+  run_migrations
+else
+  echo "Flag no reconocido. Usa '--generate' para generar migraciones o '--run' para ejecutar migraciones."
+  exit 1
+fi
