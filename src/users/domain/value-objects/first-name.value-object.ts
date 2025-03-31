@@ -5,8 +5,6 @@ export class FirstName {
       }
     }
   
-
-  
     getValue(): string {
       return this.value;
     }

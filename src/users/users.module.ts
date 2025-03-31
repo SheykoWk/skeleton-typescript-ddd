@@ -10,11 +10,13 @@ import { UserService } from "./domain/services/user.service";
 import { UserRepository } from "./domain/repositories/user.repository";
 import { ListUsersQueryHandler } from "./application/handler/list-users-query.handler";
 import { ListUserByIdQueryHandler } from "./application/handler/list-user-by-id-query.handler";
+import { UpdateUserHAndler } from "./application/handler/update-user-command.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule],
   providers: [
     CreateUserHandler,
+	UpdateUserHAndler,
 	ListUsersQueryHandler,
 	ListUserByIdQueryHandler,
 	UserService,

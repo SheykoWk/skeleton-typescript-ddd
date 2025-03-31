@@ -6,10 +6,10 @@ import { Password } from '../value-objects/password.value-object';
 
 export class User {
   public readonly _id: UserId;
-  public readonly _firstName: FirstName;
-  public readonly _lastName: LastName;
-  public readonly _email: Email;
-  public readonly _password: Password;
+  public _firstName: FirstName;
+  public _lastName: LastName;
+  public _email: Email;
+  public _password: Password;
 
   constructor(
     id: UserId, firstName: FirstName, lastName: LastName, emailUser: Email, passwordUser: Password
@@ -39,5 +39,21 @@ export class User {
 
   get password(): string {
     return this._password.getHashedPassword();
+  }
+
+  public updateFirstName(firstName: FirstName): void {
+    this._firstName = firstName;
+  }
+
+  public updateLastName(lastName: LastName): void {
+    this._lastName = lastName;
+  }
+
+  public updateEmail(email: Email): void {
+    this._email = email;
+  }
+
+  public async updatePassword(newPassword: Password): Promise<void> {
+    this._password = newPassword;
   }
 }

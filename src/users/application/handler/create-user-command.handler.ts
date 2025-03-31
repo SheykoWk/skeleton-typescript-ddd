@@ -9,17 +9,16 @@ import { LastName } from 'users/domain/value-objects/last-name.value-object';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
-  constructor(private readonly userService: UserService) {}
+	constructor(private readonly userService: UserService) {}
 
-  async execute(command: CreateUserCommand) {
+	async execute(command: CreateUserCommand): Promise<void> {
 
-    // Create Value Objects
-	const id = new UserId(command.id)
-	const firstName = new FirstName(command.firstName)
-	const lastName = new LastName(command.lastName)
-    const userEmail = new Email(command.email);
-    const userPassword = new Password(command.password);
+		const id = new UserId(command.id);
+		const firstName = new FirstName(command.firstName);
+		const lastName = new LastName(command.lastName);
+		const userEmail = new Email(command.email);
+		const userPassword = new Password(command.password);
 
-    return this.userService.createUser(id, firstName, lastName, userEmail, userPassword);
-  }
+		await this.userService.createUser(id, firstName, lastName, userEmail, userPassword);
+	}
 }
