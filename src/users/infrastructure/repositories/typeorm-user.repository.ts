@@ -6,6 +6,8 @@ import { UserRepository } from "../../domain/repositories/user.repository";
 import { UserEntity } from "../persist/user.typeorm.entity";
 import { User } from "../../domain/entities/user.entity";
 import { TypeOrmUserMapper as UserMapper } from "../mappers/typeorm-user.mapper";
+import { UserId } from "users/domain/value-objects/user-id.value-object";
+import { Email } from "users/domain/value-objects/email.value-object";
 
 @Injectable()
 export class TypeOrmUserRepository implements UserRepository {
@@ -19,13 +21,13 @@ export class TypeOrmUserRepository implements UserRepository {
         await this.userRepo.save(userEntity);
     }
 
-    async findById(id: string): Promise<User | null> {
-        const userEntity = await this.userRepo.findOne({ where: { id } });
+    async findById(id: UserId): Promise<User | null> {
+        const userEntity = await this.userRepo.findOne({ where: { id: id.getValue() } });
         return userEntity ? UserMapper.toDomain(userEntity) : null;
     }
 
-    async findByEmail(email: string): Promise<User | null> {
-        const userEntity = await this.userRepo.findOne({ where: { email } });
+    async findByEmail(email: Email): Promise<User | null> {
+        const userEntity = await this.userRepo.findOne({ where: { email: email.getValue() } });
         return userEntity ? UserMapper.toDomain(userEntity) : null;
     }
 

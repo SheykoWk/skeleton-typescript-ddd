@@ -9,12 +9,14 @@ import { CreateUserHandler } from "./application/handler/create-user-command.han
 import { UserService } from "./domain/services/user.service";
 import { UserRepository } from "./domain/repositories/user.repository";
 import { ListUsersQueryHandler } from "./application/handler/list-users-query.handler";
+import { ListUserByIdQueryHandler } from "./application/handler/list-user-by-id-query.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule],
   providers: [
     CreateUserHandler,
 	ListUsersQueryHandler,
+	ListUserByIdQueryHandler,
 	UserService,
 	ApiExceptionsHttpStatusCodeMapping,
     { provide: UserRepository, useClass: TypeOrmUserRepository },
