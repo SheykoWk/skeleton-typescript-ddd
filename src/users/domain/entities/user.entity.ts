@@ -1,28 +1,43 @@
-import * as bcrypt from 'bcrypt';
-import { CreateUserRequestDto } from "../../application/dtos/create-user.dto";
+import { UserId } from '../value-objects/user-id.value-object';
+import { FirstName } from '../value-objects/first-name.value-object';
+import { LastName } from '../value-objects/last-name.value-object';
+import { Email } from '../value-objects/email.value-object';
+import { Password } from '../value-objects/password.value-object';
 
 export class User {
-  public readonly id: string;
-  public readonly firstName: string;
-  public readonly lastName: string;
-  public readonly email: string;
-  public readonly password: string;
+  public readonly _id: UserId;
+  public readonly _firstName: FirstName;
+  public readonly _lastName: LastName;
+  public readonly _email: Email;
+  public readonly _password: Password;
 
   constructor(
-    userDto: CreateUserRequestDto
+    id: UserId, firstName: FirstName, lastName: LastName, emailUser: Email, passwordUser: Password
   ) {
-    this.id = userDto.id;
-    this.firstName = userDto.firstName;
-    this.lastName = userDto.lastName;
-    this.email = userDto.email;
-    this.password = userDto.password;
+    this._id = id;
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._email = emailUser;
+    this._password = passwordUser;
   }
 
-  static async create(userDto: CreateUserRequestDto) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(userDto.password, salt);
-    userDto.password = hashedPassword
+  get id(): string {
+    return this._id.getValue();
+  }
 
-    return new User(userDto);
+  get firstName(): string {
+    return this._firstName.getValue();
+  }
+
+  get lastName(): string {
+    return this._lastName.getValue();
+  }
+
+  get email(): string {
+    return this._email.getValue();
+  }
+
+  get password(): string {
+    return this._password.getHashedPassword();
   }
 }

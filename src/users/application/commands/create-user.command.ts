@@ -1,14 +1,34 @@
-import { Injectable } from "@nestjs/common";
-import { UserRepository } from "../../domain/repositories/user.repository";
-import { User } from "../../domain/entities/user.entity";
-import { CreateUserRequestDto } from "../dtos/create-user.dto";
+import { Command } from 'common/classes/api.command';
 
-@Injectable()
-export class CreateUserCommand {
-  constructor(private readonly userRepository: UserRepository) {}
+export class CreateUserCommand extends Command {
+	constructor(
+		commandId: string,
+		private readonly _id: string,
+		private readonly _firstName: string,
+		private readonly _lastName: string,
+		private readonly _email: string,
+		private readonly _password: string,
+	) {
+		super(commandId);
+	}
 
-  async execute(userDto: CreateUserRequestDto): Promise<void> {
-    const user = await User.create(userDto);
-    await this.userRepository.save(user);
-  }
+	public get id(): string {
+		return this._id;
+	}
+
+	public get firstName(): string {
+		return this._firstName;
+	}
+
+	public get lastName(): string {
+		return this._lastName;
+	}
+
+	public get email(): string {
+		return this._email;
+	}
+
+	public get password(): string {
+		return this._password;
+	}
 }

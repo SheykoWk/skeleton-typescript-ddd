@@ -5,8 +5,11 @@ import { AppService } from './app.service';
 import { UsersModule } from "./users/users.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { typeOrmConfig } from "./config/typeorm.config";
+import { CqrsModule } from '@nestjs/cqrs';
+
 @Module({
   imports: [
+    CqrsModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }), // Carga variables de entorno automáticamente
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
