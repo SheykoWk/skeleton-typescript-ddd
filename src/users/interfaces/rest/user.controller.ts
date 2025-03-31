@@ -6,6 +6,7 @@ import { ApiController } from 'common/classes/api.controller';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiExceptionsHttpStatusCodeMapping } from 'common/classes/api.exceptions';
 import { v4 as uuid } from 'uuid';
+import { ListUsersQuery } from 'users/application/queries/list-users.query';
 
 @Controller()
 export class UserController extends ApiController {
@@ -34,6 +35,6 @@ export class UserController extends ApiController {
 
 	@Get(UserRoutes.GET_USERS)
 	async getUsers() {
-		return Promise.resolve([]);
+		return this.queryBus.execute(new ListUsersQuery())
 	}
 }

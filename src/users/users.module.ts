@@ -8,11 +8,13 @@ import { ApiExceptionsHttpStatusCodeMapping } from "common/classes/api.exception
 import { CreateUserHandler } from "./application/handler/create-user-command.handler";
 import { UserService } from "./domain/services/user.service";
 import { UserRepository } from "./domain/repositories/user.repository";
+import { ListUsersQueryHandler } from "./application/handler/list-users-query.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule],
   providers: [
     CreateUserHandler,
+	ListUsersQueryHandler,
 	UserService,
 	ApiExceptionsHttpStatusCodeMapping,
     { provide: UserRepository, useClass: TypeOrmUserRepository },
