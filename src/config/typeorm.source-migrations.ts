@@ -6,7 +6,7 @@ import { DataSource } from 'typeorm';
 const env = process.env.NODE_ENV || 'local';
 const configPath = path.resolve(path.join(__dirname, `../../config/${env}.config.yml`));
 let config: any;
-console.log({configPath})
+
 try {
   config = yaml.load(fs.readFileSync(configPath, 'utf8')) as Record<string, any>;
 } catch (e) {
@@ -18,9 +18,6 @@ if (!config) {
 }
 
 const AppDataSource = new DataSource({
-	//   entities: [
-	//     path.resolve(__dirname, '../**/*.typeorm.entity.js'),
-	//   ],
 	type: 'postgres',
 	host: config.db.host ?? 'localhost',
 	port: config.db.port ?? 5432,
@@ -28,7 +25,7 @@ const AppDataSource = new DataSource({
 	password: config.db.password ?? '',
 	database: config.db.database ?? '',
 	entities: [path.resolve(__dirname, '../**/*.typeorm.entity{.ts,.js}')],
-	migrations: [path.resolve(__dirname, '../../dist/persist/migrations/*.js')],
+	migrations: [path.resolve(path.join(__dirname, '../../dist/persist/migrations/*.js'))],
 	migrationsTableName: 'migrations',
 	synchronize: false,
 	logging: config.db.logging ?? true,
