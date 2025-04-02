@@ -7,7 +7,7 @@ import { AuthService } from './domain/services/auth.service';
 import { UsersModule } from 'users/users.module';
 import { HashModule } from 'common/modules/hash.module';
 import { AuthController } from './infrastructure/authentication.controller';
-import { JwtStrategy } from './infrastructure/services/jwt.strategy';
+import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
 import { ApiExceptionsHttpStatusCodeMapping } from 'common/classes/api.exceptions';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
@@ -32,6 +32,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 		ApiExceptionsHttpStatusCodeMapping,
 	],
 	controllers: [AuthController],
-	exports: [AuthService, JwtModule],
+	exports: [AuthService, JwtModule, JwtStrategy],
 })
 export class AuthenticationModule {}

@@ -6,6 +6,7 @@ import { ApiController } from 'common/classes/api.controller';
 import { ApiExceptionsHttpStatusCodeMapping } from 'common/classes/api.exceptions';
 import { LoginUserCommand } from 'authentication/application/commands/login-user.commant';
 import { AuthenticationRoutes } from 'authentication/interfaces/enums/authentication.routes';
+import { Public } from 'common/decorator/public.decorator';
 
 @Controller()
 export class AuthController extends ApiController {
@@ -17,6 +18,7 @@ export class AuthController extends ApiController {
 		super(queryBus, commandBus, exceptionMapping);
 	}
 
+	@Public()
 	@Post(AuthenticationRoutes.LOGIN)
 	async login(@Body() loginRequestDto: LoginUserRequestDto) {
 

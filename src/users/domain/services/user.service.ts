@@ -7,13 +7,14 @@ import { LastName } from '../value-objects/last-name.value-object';
 import { FirstName } from '../value-objects/first-name.value-object';
 import { UserId } from '../value-objects/user-id.value-object';
 import { isNil } from 'lodash';
+import { Role } from '../enums/role.enum';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async createUser(id: UserId, firstName: FirstName, lastName: LastName, emailUser: Email, passwordUser: Password): Promise<void> {
-    const user = new User(id, firstName, lastName, emailUser,  passwordUser );
+    const user = new User(id, firstName, lastName, emailUser,  passwordUser, Role.USER );
 
     await this.userRepository.save(user);
   }

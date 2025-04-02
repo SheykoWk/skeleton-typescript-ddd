@@ -39,7 +39,7 @@ export class AuthService {
 			throw new UnauthorizedException('Invalid credentials');
 		}
 
-		const payload = {sub: user.id.getValue(), role: user.roles, permissions: user.getPermissions()}
+		const payload = {sub: user.id.getValue(), role: user.role, permissions: user.getPermissions()}
 		const accessToken = this.generateAccessToken(payload);
 		const refreshToken = this.generateRefreshToken(payload);
 

@@ -12,10 +12,9 @@ import { ListUserByIdQueryHandler } from './application/handler/list-user-by-id-
 import { UpdateUserHAndler } from './application/handler/update-user-command.handler';
 import { UserController } from './infrastructure/user.controller';
 import { HashModule } from 'common/modules/hash.module';
-import { RoleEntity } from './infrastructure/persist/role.typeorm.entity';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), CqrsModule, HashModule],
+	imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule, HashModule],
 	providers: [
 		CreateUserHandler,
 		UpdateUserHAndler,

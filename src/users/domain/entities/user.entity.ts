@@ -13,7 +13,7 @@ export class User {
 	private _lastName: LastName;
 	private _email: Email;
 	private _password: Password;
-	private _roles: Role[];
+	private _role: Role;
 
 	constructor(
 		id: UserId,
@@ -21,13 +21,14 @@ export class User {
 		lastName: LastName,
 		emailUser: Email,
 		passwordUser: Password,
+		role: Role
 	) {
 		this._id = id;
 		this._firstName = firstName;
 		this._lastName = lastName;
 		this._email = emailUser;
 		this._password = passwordUser;
-		this._roles = [Role.USER];
+		this._role = role
 	}
 
 	get id(): UserId {
@@ -50,8 +51,8 @@ export class User {
 		return this._password;
 	}
 
-	get roles(): Role[] {
-		return this._roles;
+	get role(): Role {
+		return this._role;
 	}
 
 	public updateFirstName(firstName: FirstName): void {
@@ -78,7 +79,7 @@ export class User {
 	}
 
 	getPermissions(): Permission[] {
-		return this.roles.flatMap((role) => RoleMapperPermissions[role] || []);
+		return RoleMapperPermissions[this._role]
 	}
 
 	hasPermission(permission: Permission): boolean {

@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable } from "typeorm";
-import { RoleEntity } from "./role.typeorm.entity";
+import { Role } from "users/domain/enums/role.enum";
 
 @Entity({name: "user"})
 export class UserEntity {
@@ -27,7 +27,8 @@ export class UserEntity {
   @DeleteDateColumn()
   deletedAt?: Date
 
-  @ManyToMany(() => RoleEntity, role => role.users, {cascade: true})
-  @JoinTable()
-  roles: RoleEntity[]
+  @Column({
+	default: Role.USER
+  })
+  role?: Role
 }

@@ -12,6 +12,8 @@ import { HashModule } from 'common/modules/hash.module';
 import configuration from 'config/configuration';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from 'common/decorator/roles.decorator';
+import { JwtStrategy } from 'authentication/infrastructure/strategies/jwt.strategy';
+import { JwtAuthGuard } from 'authentication/infrastructure/guards/jwt-auth.guard';
 
 @Module({
 	imports: [
@@ -33,6 +35,11 @@ import { RolesGuard } from 'common/decorator/roles.decorator';
 	providers: [
 		AppService,
 		AuthService,
+		JwtStrategy,
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuard,
+		},
 		{
 			provide: APP_GUARD,
 			useClass: RolesGuard,
