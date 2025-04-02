@@ -11,13 +11,11 @@ import { ListUsersQueryHandler } from './application/handler/list-users-query.ha
 import { ListUserByIdQueryHandler } from './application/handler/list-user-by-id-query.handler';
 import { UpdateUserHAndler } from './application/handler/update-user-command.handler';
 import { UserController } from './infrastructure/user.controller';
-import { HashService } from 'common/classes/hash.service';
-import { BcryptHashService } from 'authentication/infrastructure/services/bcrypt-hash.service';
-import { AuthenticationModule } from 'authentication/authentication.module';
 import { HashModule } from 'common/modules/hash.module';
+import { RoleEntity } from './infrastructure/persist/role.typeorm.entity';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule, HashModule],
+	imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), CqrsModule, HashModule],
 	providers: [
 		CreateUserHandler,
 		UpdateUserHAndler,

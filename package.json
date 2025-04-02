@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "build:ts": "npx tsc",
     "start": "nest start",
-	"start:dev": "NODE_ENV=local nest start",
+	"start:dev": "NODE_ENV=local nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "cli:migration:generate": "pnpm build:ts && npx ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate -d src/config/typeorm.source-migrations.ts",
