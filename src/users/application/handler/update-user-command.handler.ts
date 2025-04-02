@@ -6,10 +6,11 @@ import { LastName } from 'users/domain/value-objects/last-name.value-object';
 import { Email } from 'users/domain/value-objects/email.value-object';
 import { Password } from 'users/domain/value-objects/password.value-object';
 import { UserService } from 'users/domain/services/user.service';
+import { HashService } from 'common/classes/hash.service';
 
 @CommandHandler(UpdateUserCommand)
 export class UpdateUserHAndler implements ICommandHandler<UpdateUserCommand> {
-	constructor(private readonly userService: UserService){}
+	constructor(private readonly userService: UserService, private readonly hashService: HashService){}
 
 	async execute(command: UpdateUserCommand): Promise<void> {
 
@@ -17,7 +18,7 @@ export class UpdateUserHAndler implements ICommandHandler<UpdateUserCommand> {
 		const firstName = new FirstName(command.firstName);
 		const lastName = new LastName(command.lastName);
 		const userEmail = new Email(command.email);
-		const userPassword = new Password(command.password);
+		const userPassword = Password.createHashed(command.password, this.hashService);
 
 		await this.userService.updateUser(id, firstName, lastName, userEmail, userPassword);
 	}

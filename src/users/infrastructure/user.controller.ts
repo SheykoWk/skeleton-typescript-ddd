@@ -1,7 +1,5 @@
 import { Controller, Post, Body, Get, Param, Put, HttpCode, HttpStatus } from '@nestjs/common';
-import { CreateUserCommand } from '../../application/commands/create-user.command';
-import { UserRoutes } from '../enums/user.routes';
-import { CreateUserRequestDto } from '../../application/dtos/create-user.dto';
+import { CreateUserCommand } from '../application/commands/create-user.command';
 import { ApiController } from 'common/classes/api.controller';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiExceptionsHttpStatusCodeMapping } from 'common/classes/api.exceptions';
@@ -9,8 +7,15 @@ import { v4 as uuid } from 'uuid';
 import { ListUsersQuery } from 'users/application/queries/list-users.query';
 import { User } from 'users/domain/entities/user.entity';
 import { ListUserByIdQuery } from 'users/application/queries/list-user-by-id.query';
-import { UpdateUserRequestDto } from 'users/application/dtos/update-user.request.dto';
+import { UpdateUserRequestDto } from 'common/dtos/request/update-user.request.dto';
 import { UpdateUserCommand } from 'users/application/commands/update-user.command';
+import { UserRoutes } from 'users/interfaces/enums/user.routes';
+import { CreateUserRequestDto } from 'common/dtos/request/create-user.request.dto';
+import { Dto } from 'common/decorator/dto.decorator';
+import { UserResponseDto } from 'users/application/dtos/user.response.dto';
+import { UserListResponseDto } from 'users/application/dtos/user-list.response.dto';
+import { Roles } from 'common/decorator/roles.decorator';
+import { Role } from 'users/domain/enums/role.enum';
 
 @Controller()
 export class UserController extends ApiController {
@@ -20,6 +25,12 @@ export class UserController extends ApiController {
 		exceptionMapping: ApiExceptionsHttpStatusCodeMapping,
 	) {
 		super(queryBus, commandBus, exceptionMapping);
+	}
+
+	@Roles(Role.ADMIN)
+	@Get('private')
+	async private(){
+		return 'this is private just by admin'
 	}
 
 	@Post(UserRoutes.POST_USERS)
@@ -38,12 +49,14 @@ export class UserController extends ApiController {
 		await this.commandBus.execute(createUserCommand);
 	}
 
+	@Dto(UserListResponseDto)
 	@Get(UserRoutes.GET_USERS)
 	@HttpCode(HttpStatus.OK)
 	async getUsers(): Promise<User[]> {
 		return this.queryBus.execute(new ListUsersQuery());
 	}
 
+	@Dto(UserResponseDto)
 	@Get(UserRoutes.GET_USER_BY_ID)
 	@HttpCode(HttpStatus.OK)
 	async getUserById(@Param('id') id: string): Promise<User> {

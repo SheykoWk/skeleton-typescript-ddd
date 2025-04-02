@@ -9,11 +9,11 @@ import { Password } from "users/domain/value-objects/password.value-object";
 export class TypeOrmUserMapper {
 	static toPersistence(user: User): UserEntity {
 	  const userEntity = new UserEntity();
-	  userEntity.id = user.id; 
-	  userEntity.firstName = user.firstName;
-	  userEntity.lastName = user.lastName;
-	  userEntity.email = user.email;
-	  userEntity.password = user.password;
+	  userEntity.id = user.id.getValue(); 
+	  userEntity.firstName = user.firstName.getValue();
+	  userEntity.lastName = user.lastName.getValue();
+	  userEntity.email = user.email.getValue();
+	  userEntity.password = user.password.getValue();
 	  return userEntity;
 	}
   
@@ -22,7 +22,7 @@ export class TypeOrmUserMapper {
 	  const firstName = new FirstName(userEntity.firstName);
 	  const lastName = new LastName(userEntity.lastName);
 	  const email = new Email(userEntity.email);
-	  const password = new Password(userEntity.password);
+	  const password = Password.fromHash(userEntity.password);
   
 	  return new User(userId, firstName, lastName, email, password);
 	}

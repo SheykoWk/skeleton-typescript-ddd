@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable } from "typeorm";
+import { RoleEntity } from "./role.typeorm.entity";
 
 @Entity({name: "user"})
 export class UserEntity {
@@ -22,4 +23,11 @@ export class UserEntity {
 
   @UpdateDateColumn()
   updatedAt?: Date = new Date()
+
+  @DeleteDateColumn()
+  deletedAt?: Date
+
+  @ManyToMany(() => RoleEntity, role => role.users, {cascade: true})
+  @JoinTable()
+  roles: RoleEntity[]
 }

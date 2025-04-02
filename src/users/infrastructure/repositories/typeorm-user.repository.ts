@@ -8,6 +8,7 @@ import { User } from "../../domain/entities/user.entity";
 import { TypeOrmUserMapper as UserMapper } from "../mappers/typeorm-user.mapper";
 import { UserId } from "users/domain/value-objects/user-id.value-object";
 import { Email } from "users/domain/value-objects/email.value-object";
+import { QuerySearch } from "common/types/query-search.type";
 
 @Injectable()
 export class TypeOrmUserRepository implements UserRepository {
@@ -27,11 +28,11 @@ export class TypeOrmUserRepository implements UserRepository {
     }
 
     async findByEmail(email: Email): Promise<User | null> {
-        const userEntity = await this.userRepo.findOne({ where: { email: email.getValue() } });
+        const userEntity = await this.userRepo.findOne({ where: { email: email.getValue() }, relations: ['role'] });
         return userEntity ? UserMapper.toDomain(userEntity) : null;
     }
 
-    async findAll(): Promise<User[]> {
+    async findAll(query: QuerySearch): Promise<User[]> {
         const users = await this.userRepo.find();
         return users.map(UserMapper.toDomain);
     }
