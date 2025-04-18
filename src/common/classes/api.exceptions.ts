@@ -25,7 +25,6 @@ export class ApiExceptionsHttpStatusCodeMapping {
       return new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
 
-    // Excepción genérica para otros errores no controlados
     return new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

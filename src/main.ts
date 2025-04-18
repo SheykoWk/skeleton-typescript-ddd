@@ -5,13 +5,12 @@ import 'reflect-metadata';
 
 import { AllExceptionsFilter } from 'common/filters/all-exceptions.filters';
 import { CustomExceptionFilter } from 'common/filters/custom-exceptions.filters';
-import { JwtAuthGuard } from 'authentication/infrastructure/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'app/authentication/infrastructure/guards/jwt-auth.guard';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
 	const reflector = app.get(Reflector);
-
 
 	app.useGlobalGuards(new JwtAuthGuard(reflector));
 

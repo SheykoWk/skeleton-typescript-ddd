@@ -2,18 +2,18 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './app/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm.config';
 import { CqrsModule } from '@nestjs/cqrs';
-import { AuthenticationModule } from 'authentication/authentication.module';
-import { AuthService } from 'authentication/domain/services/auth.service';
+import { AuthenticationModule } from 'app/authentication/authentication.module';
+import { AuthService } from 'app/authentication/domain/services/auth.service';
 import { HashModule } from 'common/modules/hash.module';
 import configuration from 'config/configuration';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from 'common/decorator/roles.decorator';
-import { JwtStrategy } from 'authentication/infrastructure/strategies/jwt.strategy';
-import { JwtAuthGuard } from 'authentication/infrastructure/guards/jwt-auth.guard';
+import { JwtStrategy } from 'app/authentication/infrastructure/strategies/jwt.strategy';
+import { JwtAuthGuard } from 'app/authentication/infrastructure/guards/jwt-auth.guard';
 
 @Module({
 	imports: [
